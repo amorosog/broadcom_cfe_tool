@@ -3,10 +3,10 @@ name: Build broadcom_cfe_tool on Windows
 on:
   push:
     branches:
-      - main  # Adjust this to your branch name
+      - main  # Change to your target branch if needed
   pull_request:
     branches:
-      - main  # Adjust this to your branch name
+      - main  # Change to your target branch if needed
 
 jobs:
   build-windows:
@@ -26,7 +26,8 @@ jobs:
           MSYSTEM: MINGW64
 
       - name: Compile broadcom_cfe_tool
-        run: gcc -o broadcom_cfe_tool.exe src/*.c
+        # Directly compile all C files in the repository
+        run: gcc -o broadcom_cfe_tool.exe *.c
         shell: msys2 {0}
 
       - name: Upload binary
