@@ -1,0 +1,36 @@
+name: Build broadcom_cfe_tool on Windows
+
+on:
+  push:
+    branches:
+      - main  # Adjust this to your branch name
+  pull_request:
+    branches:
+      - main  # Adjust this to your branch name
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            mingw-w64-x86_64-gcc
+        env:
+          MSYSTEM: MINGW64
+
+      - name: Compile broadcom_cfe_tool
+        run: gcc -o broadcom_cfe_tool.exe src/*.c
+        shell: msys2 {0}
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: broadcom_cfe_tool_binary
+          path: ./broadcom_cfe_tool.exe
